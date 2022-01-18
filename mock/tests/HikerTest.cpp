@@ -1,11 +1,12 @@
 #include "CppUTest/TestHarness.h"
 #include "CppUTestExt/MockSupport.h"
 #include "Hiker.hpp"
-#include "production.hpp"
+
 
 TEST_GROUP(MockDocumentation)
 {
     int result;
+    
     void teardown()
     {
         result =0;
@@ -14,16 +15,20 @@ TEST_GROUP(MockDocumentation)
     }
 };
 
-void productionCode()
-{
-    mock().actualCall("productionCode");
+int productionCode(int val1 , int val2)
+{ 
+    mock().actualCall("productionCode")
+        .withParameter("val1", val1).withParameter("val2", val2);
+    return mock().intReturnValue();
+
+
 }
 
 TEST(MockDocumentation, SimpleScenario)
 {
-    mock().expectOneCall("productionCode");
-    //productionCode();
-    //mock().checkExpectations();
+    mock().expectOneCall("productionCode")
+        .withParameter("val1", 10).withParameter("val2", 20).andReturnValue(30);
+
     result = calc();
-    LONGS_EQUAL(1, result);
+    LONGS_EQUAL(30, result);
 }

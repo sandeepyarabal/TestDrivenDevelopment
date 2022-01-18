@@ -1,1 +1,1 @@
-void productionCode();
+int productionCode(int a, int b);
